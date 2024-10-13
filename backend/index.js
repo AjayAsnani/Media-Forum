@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors'); // Import cors
-const connectDB = require('./config/db');
+const connectDB = require('./config/db'); // Ensure you have the correct path for your db connection
 const userRoutes = require('./routes/userRoutes');
 require('dotenv').config(); // Load environment variables
 
@@ -23,7 +23,7 @@ app.options('*', cors()); // Add this line before routes
 app.use(express.json());
 
 // Use the user routes
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes); // Ensure the path is correct
 
 // Test route
 app.get('/', (req, res) => {
