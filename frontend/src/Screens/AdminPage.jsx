@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Admin = () => {
-  // Sample user data
-  const users = [
-    {
-      firstName: 'Pritesh',
-      lastName: 'Nath',
-      streetAddress: '410,10 Dwarka Apartment',
-      town: 'Ahmedabad',
-      state: 'Andhra Pradesh',
-      pincode: '380024',
-      phone: '9509416349',
-      email: 'priteshxtech@gmail.com',
-      nomineeName: 'Raj',
-      sponsorId: '123456',
-      vigilanceOfficer: 'Officer Name',
-      accountUsername: 'priteshxtech@gmail.com',
-      password: '123456', // This should be hashed in the backend
-    },
-    // Add more user objects if needed
-  ];
-
-  // State for theme toggle
+  const [users, setUsers] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
+
+  // Fetch user data from the backend
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/users'); // Ensure this is the correct URL
+        console.log('Fetched Users:', response.data); // Log the fetched data
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error); // Log the error if it occurs
+      }
+    };
+
+    fetchUsers(); // Call the function to fetch data
+  }, []);
+
+  // Rest of your Admin component code...
+
 
   // Toggle theme
   const toggleTheme = () => {
@@ -33,12 +32,9 @@ const Admin = () => {
     <div className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'} min-h-screen`}>
       {/* Navbar */}
       <nav className="bg-gray-800 p-4 flex justify-between items-center">
-        {/* Left Side of Navbar (Logo or Links) */}
         <div className="flex items-center space-x-4">
           <h1 className="text-2xl text-white font-bold">Admin Panel</h1>
         </div>
-
-        {/* Right Side of Navbar (Theme Toggle) */}
         <div>
           <button
             onClick={toggleTheme}

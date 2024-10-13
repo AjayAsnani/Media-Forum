@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import Navbar from '../Components/Navbar';
+import Select from 'react-select'; // Import react-select
+// import stateCityData from './'; // Import the JSON file
+
 
 const RegisterPage = () => {
     const {
@@ -17,6 +20,15 @@ const RegisterPage = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [submitMessage, setSubmitMessage] = useState('');
     const navigate = useNavigate();
+
+    // const [stateOptions, setStateOptions] = useState([]); // State options
+    // const [cityOptions, setCityOptions] = useState([]); // City options based on selected state
+    // const [stateCityData, setStateCityData] = useState(null); // Store entire JSON data
+
+
+
+
+
 
     // Google OAuth Logic
     const login = useGoogleLogin({
@@ -33,6 +45,43 @@ const RegisterPage = () => {
             ? age - 1 >= 18
             : age >= 18;
     };
+
+    // // Fetch the JSON data on component mount
+    // useEffect(() => {
+    //     fetch('/St-ci.json')
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setStateCityData(data); // Store the JSON data
+
+    //             const states = data.states.map((state) => ({
+    //                 label: state.name,
+    //                 value: state.name,
+    //             }));
+    //             setStateOptions(states); // Set state options
+    //         })
+    //         .catch((error) => console.error('Error fetching data:', error));
+    // }, []);
+
+    // // Handle state selection and update cities
+    // const handleStateChange = (selectedOption) => {
+    //     if (!stateCityData) return; // Ensure data is available
+
+    //     const selectedStateName = selectedOption?.value; // Check for valid selection
+    //     console.log('Selected State:', selectedStateName);
+
+    //     const selectedState = stateCityData.states.find(
+    //         (state) => state.name === selectedStateName
+    //     );
+
+    //     const cities = selectedState
+    //         ? selectedState.cities.map((city) => ({
+    //             label: city.name,
+    //             value: city.name,
+    //         }))
+    //         : [];
+
+    //     setCityOptions(cities); // Update city options
+    // };
 
     // Function to send form data to the backend
     async function onSubmit(data) {
@@ -177,32 +226,75 @@ const RegisterPage = () => {
                             {errors.streetAddress && <p className="text-red-500">{errors.streetAddress.message}</p>}
                         </div>
 
-                        {/* Town / City */}
+                        {/* Town*/}
                         <div>
-                            <label className="block mb-1 font-semibold text-start">Town / City <span className='text-red-500'>*</span></label>
+                            <label className="block mb-1 font-semibold text-start">Town <span className='text-red-500'>*</span></label>
                             <input
                                 type="text"
-                                {...register('city', { required: 'Town/City is required' })}
-                                placeholder="Enter Town / City"
+                                {...register('city', { required: 'Town is required' })}
+                                placeholder="Enter Town"
                                 className="w-full border border-gray-300 p-2 focus:outline-none focus:border-black"
                             />
                             {errors.city && <p className="text-red-500">{errors.city.message}</p>}
                         </div>
 
                         {/* State Dropdown */}
-                        <div>
-                            <label className="block mb-1 font-semibold text-start">State <span className='text-red-500'>*</span></label>
+                        <div className="relative">
+                            <label className="block mb-1 font-semibold text-start">
+                                State<span className="text-red-500">*</span>
+                            </label>
                             <select
-                                {...register('state', { required: 'State is required' })}
-                                className="w-full border border-gray-300 p-2 focus:outline-none focus:border-black"
+                                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500"
+                                {...register('state', { required: 'State is required' })} // Validation with react-hook-form
                             >
                                 <option value="">Select State</option>
                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Jharkhand">Jharkhand</option>
                                 <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
                                 <option value="Maharashtra">Maharashtra</option>
-                                {/* Add more state options as needed */}
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="West Bengal">West Bengal</option>
                             </select>
+                            {/* Error Display */}
                             {errors.state && <p className="text-red-500">{errors.state.message}</p>}
+                        </div>
+
+
+                        {/* City Textbox */}
+                        <div className="relative mt-4">
+                            <label className="block mb-1 font-semibold text-start">
+                                City<span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Enter City"
+                                {...register('city', { required: 'City is required' })}
+                                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500"
+                            />
+                            {/* Display Error */}
+                            {errors.city && <p className="text-red-500">{errors.city.message}</p>}
                         </div>
 
                         {/* Pincode */}
