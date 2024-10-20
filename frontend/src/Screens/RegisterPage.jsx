@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import Navbar from '../Components/Navbar';
-import Select from 'react-select'; // Import react-select
+// import Select from 'react-select'; // Import react-select
 // import stateCityData from './'; // Import the JSON file
 
 
